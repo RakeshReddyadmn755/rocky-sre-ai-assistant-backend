@@ -1,3 +1,4 @@
+# app/openai_client.py
 
 import openai
 import os
@@ -6,21 +7,13 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def summarize_text(text: str):
     prompt = f"""
-    You are an SRE Assistant. Format the below input as:
-    Category: <Win | Miss | Insight>
-    What?: <summary>
-    So What?: <impact>
-    Now What?: <next steps>
-    Owner: <team/person>
-    Due Date: <target date>
-
+    Format this into:
+    What? So What? Now What? Owner? Due Date?
     Input: {text}
+    Output:
     """
-
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=[{"role": "system", "content": prompt}],
-        temperature=0.3,
+        messages=[{"role": "user", "content": prompt}],
     )
-
-    return response.choices[0].message["content"]
+    return {"summary": response.choices[0].message.content.strip()}

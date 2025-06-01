@@ -1,14 +1,16 @@
+# app/main.py
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from app.openai_client import summarize_text  # adjust if needed
+from app.openai_client import summarize_text  # ← ✅ match your file structure
 
-app = FastAPI()  # ✅ Only define app ONCE
+app = FastAPI()
 
-# ✅ CORS middleware must be applied to the same instance
+# ✅ CORS middleware must come BEFORE routes
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For security later, use your Vercel frontend URL
+    allow_origins=["*"],  # For production, use your Vercel domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
