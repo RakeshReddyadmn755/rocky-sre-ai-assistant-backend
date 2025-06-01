@@ -1,16 +1,12 @@
-import openai
+from openai import OpenAI
 import os
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def summarize_text(text: str):
-    if not openai.api_key:
-        print("❌ OpenAI API key not set.")
-        return {"error": "OpenAI API key not set."}
-
     try:
         print(f"📨 Input text: {text}")
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {
@@ -24,10 +20,9 @@ def summarize_text(text: str):
             ],
             temperature=0.5
         )
-        summary = response.choices[0].message["content"]
-        print("✅ Response received.")
+        summary = response.choices[0].message.content
+        print("✅ Summary created.")
         return summary
-
     except Exception as e:
-        print(f"❌ Error calling OpenAI API: {e}")
+        print(f"❌ OpenAI error: {e}")
         return {"error": str(e)}
