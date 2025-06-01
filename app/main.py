@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-from openai_client import summarize_text
+from .openai_client import summarize_text
 
 app = FastAPI()
 
