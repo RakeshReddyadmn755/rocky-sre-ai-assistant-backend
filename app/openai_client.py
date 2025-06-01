@@ -8,7 +8,7 @@ def summarize_text(text: str):
         raise ValueError("OpenAI API key not set")
 
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",  # Use gpt-4 only if you have access
+        model="gpt-3.5-turbo",
         messages=[
             {
                 "role": "system",
