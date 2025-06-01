@@ -1,22 +1,18 @@
-
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from app.openai_client import summarize_text  # or use .openai_client if you're inside /app
 
 app = FastAPI()
 
-# Add this CORS config
+# ✅ Enable CORS for frontend/backend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Or specify your Vercel frontend URL for stricter security
+    allow_origins=["*"],  # Replace with specific Vercel domain for security
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-from fastapi import FastAPI
-from pydantic import BaseModel
-from .openai_client import summarize_text
-
-app = FastAPI()
 
 class SREInput(BaseModel):
     text: str
